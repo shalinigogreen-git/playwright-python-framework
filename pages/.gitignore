@@ -1,0 +1,12 @@
+# Local Virtual Environment
+.venv/
+__pycache__/
+
+# Playwright Results & Media (Keep your GitHub light!)
+test-results/
+screenshots/
+videos/
+*.zip
+
+# Windows files
+Thumbs.db
