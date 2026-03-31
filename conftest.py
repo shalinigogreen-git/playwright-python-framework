@@ -47,11 +47,14 @@ def pytest_runtest_makereport(item, call):
             extra.append(pytest_html.extras.image(screenshot_path))
             report.extra = extra
 
+
+
+# Change the function to this:
+def pytest_html_report_title(report):
+    report.title = "PROJECT PLAYWRIGHT PYTHON: Login Suite"
+
 from datetime import datetime
-
-def pytest_html_report_title(main):
-    main.append("PROJECT PYTHON PLAYWRIGHT: Login Suite")
-
 def pytest_html_results_summary(prefix, summary, postfix):
+    # Use 'prefix' to add a custom note at the top
     prefix.extend([f"Run Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"])
-    prefix.extend(["Test Objective: Verify all Login & Search scenarios for Production Readiness."])
+    prefix.extend(["<p>Test Objective: Verify all Login scenarios from CSV.</p>"])
