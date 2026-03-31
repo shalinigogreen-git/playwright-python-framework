@@ -46,3 +46,12 @@ def pytest_runtest_makereport(item, call):
             # This adds the screenshot to the HTML report
             extra.append(pytest_html.extras.image(screenshot_path))
             report.extra = extra
+
+from datetime import datetime
+
+def pytest_html_report_title(main):
+    main.append("PROJECT PYTHON PLAYWRIGHT: Login Suite")
+
+def pytest_html_results_summary(prefix, summary, postfix):
+    prefix.extend([f"Run Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"])
+    prefix.extend(["Test Objective: Verify all Login & Search scenarios for Production Readiness."])
