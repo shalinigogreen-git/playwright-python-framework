@@ -1,107 +1,59 @@
-# 🚀 Playwright Python Automation Framework
+ Playwright Automation Framework - PROJECT PLAYWRIGHT PYTHON
 
-A scalable and production-ready UI automation framework built using **Playwright + Pytest**, designed for reliable end-to-end testing with CI/CD integration.
+A professional, data-driven automation framework built with Python, Playwright, and Pytest. This project demonstrates a scalable approach to web testing using external data sources and automated reporting.
 
----
+🌟 Key Features:
 
-## 📌 Project Overview
+Data-Driven Testing (DDT): Test cases are separated from logic using a test_data.csv file managed via Pandas.
 
-This project demonstrates a modern automation framework using:
-- Playwright for browser automation
-- Pytest for test execution and structure
-- Page Object Model (POM) for maintainability
-- CI/CD using GitHub Actions
-- Screenshot & video capture for debugging failures
+Professional Reporting: Automated HTML reports with custom branding, titles, and execution summaries.
 
----
+Visual Debugging: Automatic Screenshots and Video recordings on test failures.
 
-## 🛠️ Tech Stack
+Clean Architecture: Centralized configuration using pytest.ini and shared fixtures in conftest.py.
 
-- Python 🐍
-- Playwright 🎭
-- Pytest ⚙️
-- GitHub Actions 🚀
+Environment Isolation: Managed via Python Virtual Environments (.venv) for consistency across machines.
 
----
+🛠️ Tech Stack:
 
-## 📁 Project Structure
-project/
-│
-├── tests/ # Test cases
-├── pages/ # Page Object Model classes
-├── screenshots/ # Failure screenshots
-├── videos/ # Test execution videos
-│
-├── conftest.py # Fixtures & hooks
-├── pytest.ini # Pytest config
-├── requirements.txt # Dependencies
-└── .github/workflows/ # CI/CD pipeline
+Language: Python 3.x
+Library: Playwright (Python)
+Test Runner: Pytest
+Data Handling: Pandas & Openpyxl
+Reports: Pytest-HTML
+
+📁 Project Structure
+Plaintext
+├── tests/
+│   └── test_data_driven_login_csv.py  # Core test logic
+├── test_data.csv                      # External test data (User/Pass/Status)
+├── conftest.py                        # Hooks for report branding & screenshots
+├── pytest.ini                         # Global framework configuration
+├── .gitignore                         # Prevents pushing junk files (venv, cache)
+└── README.md                          # Project documentation
 
 
----
+🚀 How to Run
 
-## ⚙️ Setup Instructions
+Clone the Repo:
+Bash
+git clone <your-repo-link>
 
-### 1. Clone the repository
+Activate Environment:
+PowerShell
+.\.venv\Scripts\activate
 
-git clone git@github.com
-:your-username/playwright-framework.git
-cd playwright-framework
-
-
-### 2. Install dependencies
-
-pip install -r requirements.txt
-
-
-### 3. Install Playwright browsers
-
-playwright install
-
-
----
-
-## ▶️ Run Tests
-
-
+Run Tests & Generate Report:
+PowerShell
 pytest
 
 
-Run with browser UI:
+📝 Lessons Learned (Troubleshooting):
 
-pytest --headed
+During the development of this framework, several enterprise-level challenges were resolved:
 
+Path Management: Implemented os.path logic to ensure data files are found regardless of execution directory.
 
----
+Configuration Conflicts: Resolved duplicate name 'addopts' errors by merging CLI flags into a single, clean .ini structure.
 
-## 📸 Features
-
-✅ Page Object Model (POM)  
-✅ Pytest fixtures & parametrization  
-✅ Screenshot capture on failure  
-✅ Video recording of test execution  
-✅ HTML reporting  
-✅ CI/CD with GitHub Actions  
-
----
-
-## 📊 Reports
-
-Generate HTML report:
-
-pytest --html=report.html
-
----
-
-## 🔄 CI/CD Integration
-
-- Tests run automatically on every push
-- Reports, screenshots, and videos are uploaded as artifacts
-
-📍 Check GitHub Actions tab for execution details
-
----
-
-## 🧠 Key Highlights
-
-- Scalable automation framework design  
+Version Compatibility: Adapted pytest-html hooks to comply with v4.0+ "report object" requirements.
