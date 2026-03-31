@@ -26,3 +26,23 @@ def pytest_runtest_makereport(item, call):
         page = item.funcargs.get("page")
         if page:
             page.screenshot(path=f"screenshots/{item.name}.png")
+
+import pytest
+
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    pytest_html = item.config.pluginmanager.getplugin("html")
+    outcome = yield
+    report = outcome.get_result()
+    extra = getattr(report, "extra", [])
+
+    if report.when == "call":
+        # Access the page fixture from the test
+        page = item.funcargs.get("page")
+        if page:
+            # Take a screenshot and embed it
+            screenshot_path = f"screenshots/{item.name}.png"
+            page.screenshot(path=screenshot_path)
+            # This adds the screenshot to the HTML report
+            extra.append(pytest_html.extras.image(screenshot_path))
+            report.extra = extra
