@@ -1,6 +1,10 @@
 import pytest
 
 # Test Case 1: Positive Scenario
+import pytest
+
+@pytest.mark.smoke  # This is your 'Tag' to do smoke testing only to save time
+
 def test_successful_login(page):
     page.goto("https://practicetestautomation.com/practice-test-login/")
     
