@@ -56,7 +56,7 @@ pytest
 
 📝 **Lessons Learned (Troubleshooting):**
 
-* Developing this framework provided deep insights into Enterprise Python Testing challenges:
+Developing this framework provided deep insights into Enterprise Python Testing challenges:
 
 * Dynamic Path Management: Solved directory issues by implementing os.path logic. This ensures the framework finds the test_data.csv whether it is run from the root or the sub-folder.
 
