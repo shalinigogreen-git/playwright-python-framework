@@ -1,34 +1,24 @@
 import pytest
+from datetime import datetime
+import os
 
+# 1. Global Browser Settings (Video Recording)
+@pytest.fixture(scope="session")
+def browser_context_args(browser_context_args):
+    return {
+        **browser_context_args,
+        "record_video_dir": "videos/",
+        "record_video_size": {"width": 1280, "height": 720}
+    }
+
+# 2. Shared Test Data Fixture
 @pytest.fixture
 def test_data():
     return {
         "search_text": "Playwright Python"
     }
 
-import pytest
-
-@pytest.fixture(scope="session")
-def browser_context_args():
-    return {
-        "record_video_dir": "videos/",
-        "record_video_size": {"width": 1280, "height": 720}
-    }
-
-import pytest
-
-@pytest.hookimpl(hookwrapper=True)
-def pytest_runtest_makereport(item, call):
-    outcome = yield
-    rep = outcome.get_result()
-
-    if rep.when == "call" and rep.failed:
-        page = item.funcargs.get("page")
-        if page:
-            page.screenshot(path=f"screenshots/{item.name}.png")
-
-import pytest
-
+# 3. Unified Hook for Screenshots and HTML Report Embedding
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item, call):
     pytest_html = item.config.pluginmanager.getplugin("html")
@@ -36,25 +26,30 @@ def pytest_runtest_makereport(item, call):
     report = outcome.get_result()
     extra = getattr(report, "extra", [])
 
-    if report.when == "call":
-        # Access the page fixture from the test
+    # We only take screenshots when the test actually runs ("call") and FAILS
+    if report.when == "call" and report.failed:
         page = item.funcargs.get("page")
         if page:
-            # Take a screenshot and embed it
-            screenshot_path = f"screenshots/{item.name}.png"
+            # Ensure the screenshots folder exists
+            if not os.path.exists("screenshots"):
+                os.makedirs("screenshots")
+            
+            # Clean filename (removing special characters from parametrization)
+            clean_name = item.name.replace("[", "_").replace("]", "_").replace("-", "_")
+            screenshot_path = f"screenshots/{clean_name}.png"
+            
             page.screenshot(path=screenshot_path)
-            # This adds the screenshot to the HTML report
-            extra.append(pytest_html.extras.image(screenshot_path))
-            report.extra = extra
+            
+            # Embed the screenshot directly into the HTML report
+            if pytest_html:
+                extra.append(pytest_html.extras.image(screenshot_path))
+                report.extra = extra
 
-
-
-# Change the function to this:
+# 4. Branded Report Title
 def pytest_html_report_title(report):
-    report.title = "PROJECT PLAYWRIGHT PYTHON: Login Suite"
+    report.title = "PROJECT PLAYWRIGHT PYTHON: Automation Suite"
 
-from datetime import datetime
+# 5. Branded Report Summary with Timestamp
 def pytest_html_results_summary(prefix, summary, postfix):
-    # Use 'prefix' to add a custom note at the top
-    prefix.extend([f"Run Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"])
-    prefix.extend(["<p>Test Objective: Verify all Login scenarios from CSV.</p>"])
+    prefix.extend([f"<h4>Run Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</h4>"])
+    prefix.extend(["<p><b>Test Objective:</b> Verify Login and Search scenarios via CSV Data-Driven Testing.</p>"])

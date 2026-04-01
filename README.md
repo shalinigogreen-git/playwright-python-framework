@@ -17,6 +17,10 @@ Professional Reporting: Generates automated HTML Reports featuring custom compan
 
 Visual Debugging: Integrated Automatic Screenshots and Video Recordings that trigger specifically on test failures to speed up root-cause analysis.
 
+Automated Reporting: It captured exactly what the browser saw at the moment of failure and embedded it into the report.
+
+![alt text](image.png)
+
 Clean Architecture: Utilizes a centralized pytest.ini for global configuration and a conftest.py for shared fixtures and reporting hooks.
 
 Environment Isolation: Built within a Python Virtual Environment (.venv) to ensure "it works on my machine" translates to "it works everywhere."
@@ -42,17 +46,52 @@ Playwright_Python_Framework/
 ├── .gitignore                         # Security: Prevents pushing .venv and cache
 └── README.md                          # Project Documentation
 
-**How to Run:**
-1. Clone the Repository:
-git clone <your-repo-link>
+How to Run & Execute
+The framework is designed for Zero-Config Execution. Because all settings are centralized in pytest.ini, you can run the entire enterprise suite with a single command.
 
-2. Activate the Virtual Environment:
+1. Clone & Setup
+First, pull the repository and ensure your environment is isolated:
+
+Bash
+git clone <your-repo-link>
+cd Playwright_Python_Framework
+2. Environment Activation
+Activate the Virtual Environment to load project-specific dependencies (Pandas, Playwright, Pytest):
+
+PowerShell
+# Windows PowerShell
 .\.venv\Scripts\activate
 
-3. Execute the Suite:
+# If you encounter a permission error, run:
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+
+3. Execution Commands
+You can run the full suite or target specific business modules:
+
+*Run All Tests (Login + Google Search):
+
+PowerShell
 pytest
 
-(The framework will automatically read settings from pytest.ini and generate report.html)
+*Run Login Module Only:
+
+PowerShell
+pytest tests/test_data_driven_login_csv.py
+
+*Run Google Search Module Only:
+
+PowerShell
+pytest tests/test_google_search.py
+
+📊 Automated Reporting
+Upon completion, the framework automatically aggregates results into a Branded HTML Report.
+
+Report Name: final_report.html
+
+Contents: Execution timestamps, Embedded Screenshots on Failure, and Video logs.
+
+![Automation Report](assets/report_screenshot.png)
+
 
 📝 **Lessons Learned (Troubleshooting):**
 
