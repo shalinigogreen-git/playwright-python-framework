@@ -53,3 +53,12 @@ def pytest_html_report_title(report):
 def pytest_html_results_summary(prefix, summary, postfix):
     prefix.extend([f"<h4>Run Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</h4>"])
     prefix.extend(["<p><b>Test Objective:</b> Verify Login and Search scenarios via CSV Data-Driven Testing.</p>"])
+
+
+# In your conftest.py or browser launch logic
+import os
+
+# This checks if we are running on a GitHub server
+is_ci = os.getenv("CI") == "true"
+
+browser = playwright.chromium.launch(headless=is_ci)

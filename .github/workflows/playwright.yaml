@@ -23,7 +23,9 @@ jobs:
     
     - name: Run Tests
             # Adding --headless ensures it works on the Linux server
-      run: python -m pytest --headless --html=report.html --self-contained-html
+      # We remove --headless and let Playwright handle it automatically
+      # GitHub Runners default to headless mode because they have no 'display'
+      run: python -m pytest --html=report.html --self-contained-html
     
     - name: Upload Report
       if: always()
