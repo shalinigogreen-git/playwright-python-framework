@@ -22,7 +22,8 @@ jobs:
         playwright install --with-deps
     
     - name: Run Tests
-      run: pytest --html=report.html --self-contained-html
+            # Adding --headless ensures it works on the Linux server
+      run: python -m pytest --headless --html=report.html --self-contained-html
     
     - name: Upload Report
       if: always()
