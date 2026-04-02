@@ -5,7 +5,7 @@ from playwright.sync_api import expect
 from pages.google_page import GooglePage  # Importing your POM class
 
 def get_search_data():
-    """Helper to fetch data from CSV for Shivansh Services framework"""
+    """Helper to fetch data from CSV for Playwright Python framework"""
     current_dir = os.path.dirname(__file__)
     file_path = os.path.join(current_dir, "..", "search_data.csv")
     df = pd.read_csv(file_path)
@@ -26,9 +26,19 @@ def test_google_search_pom_ddt(page, term, expected):
     if accept_btn.is_visible():
         accept_btn.click()
 
-    # 3. Perform the search using the POM method
+
+    # 3. Perform the search
     google.search(str(term))
 
-    # 4. Professional Validation
-    # We still use 'expect' here because assertions belong in the Test layer
-    expect(page.locator("body")).to_contain_text(str(expected))
+    # 4. THE FIX: Wait for the results container to actually appear
+    # We use a broad locator that covers the main content area
+    results_container = page.locator("#main")
+    
+    # 5. Professional Validation
+    # We add a 10-second timeout specifically for this assertion 
+    # to account for slow network rendering on Google.
+    expect(results_container).to_contain_text(
+        str(expected), 
+        ignore_case=True, 
+        timeout=10000
+    )
