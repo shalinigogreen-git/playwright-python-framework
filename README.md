@@ -90,8 +90,6 @@ Report Name: final_report.html
 
 Contents: Execution timestamps, Embedded Screenshots on Failure, and Video logs.
 
-![Automation Report](assets/report_screenshot.png)
-
 
 📝 **Lessons Learned (Troubleshooting):**
 
