@@ -55,10 +55,13 @@ def pytest_html_results_summary(prefix, summary, postfix):
     prefix.extend(["<p><b>Test Objective:</b> Verify Login and Search scenarios via CSV Data-Driven Testing.</p>"])
 
 
-# In your conftest.py or browser launch logic
+import pytest
 import os
 
-# This checks if we are running on a GitHub server
-is_ci = os.getenv("CI") == "true"
-
-browser = playwright.chromium.launch(headless=is_ci)
+@pytest.fixture(scope="session")
+def browser_type_launch_args(browser_type_launch_args):
+    # This sends the 'headless' command to the Browser Launch level
+    return {
+        **browser_type_launch_args,
+        "headless": os.getenv("CI") == "true"
+    }
